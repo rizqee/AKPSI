@@ -12,10 +12,10 @@ public class UserInfoDetails implements UserDetails {
     private String username; // Changed from 'name' to 'username' for clarity
     private String password;
     private List<GrantedAuthority> authorities;
-    public UserInfoDetails(UserInfo userInfo) {
-        this.username = userInfo.getName(); // Assuming 'name' is used as 'username'
-        this.password = userInfo.getPassword();
-        this.authorities = List.of(userInfo.getRoles().split(","))
+    public UserInfoDetails(Auth auth,Person person) {
+        this.username = auth.getUsername(); // Assuming 'name' is used as 'username'
+        this.password = auth.getPassword();
+        this.authorities = List.of(person.getRoles().split(","))
                 .stream()
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());

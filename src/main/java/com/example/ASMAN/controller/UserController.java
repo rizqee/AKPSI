@@ -1,7 +1,9 @@
 package com.example.ASMAN.controller;
 
+import com.example.ASMAN.entity.Auth;
 import com.example.ASMAN.entity.AuthRequest;
-import com.example.ASMAN.entity.UserInfo;
+import com.example.ASMAN.entity.Person;
+import com.example.ASMAN.service.AuthService;
 import com.example.ASMAN.service.JwtService;
 import com.example.ASMAN.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class UserController {
     @Autowired
-    private UserInfoService service;
+    private UserInfoService userInfoService;
+    @Autowired
+    private AuthService authService;
 
     @Autowired
     private JwtService jwtService;
@@ -33,8 +37,14 @@ public class UserController {
     }
 
     @PostMapping("/addNewUser")
-    public String addNewUser(@RequestBody UserInfo userInfo) {
-        return service.addUser(userInfo);
+    public String addNewUser(@RequestBody Person person) {
+        String response = "";
+        try{
+            response = userInfoService.addUser(person);
+        }catch (Exception e){
+            response = e.getMessage();
+        }
+        return response;
     }
 
     @GetMapping("/user/userProfile")
